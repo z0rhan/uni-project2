@@ -42,6 +42,7 @@ bool read_size(std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
     split_line(temp, line);
     if( temp.size() == 2 and is_number(temp.at(0)) and is_number(temp.at(1)) )
     {
+        // Calling OrienteeringMap::set_map_size(int, int)
         routes->set_map_size(std::stoi(temp.at(0)), std::stoi(temp.at(1)));
         return true;
     }
@@ -75,6 +76,7 @@ bool read_points( std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
         }
         else
         {
+            // Calling OrienteeringMap::add_point(string, int, int, int, char)
             routes->add_point(temps.at(0),
                               std::stoi(temps.at(1)),
                               std::stoi(temps.at(2)),
@@ -98,6 +100,7 @@ bool read_routes(std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
             route = temp.at(0);
             for( unsigned int i = 2 ; i < temp.size(); ++i )
             {
+                // Call OrienteeringMap::connect_route(string, string, string)
                 if( not routes->connect_route(temp.at(i - 1),
                                               temp.at(i),
                                               route) )
