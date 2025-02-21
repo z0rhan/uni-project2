@@ -14,7 +14,7 @@ OrienteeringMap::~OrienteeringMap() {
 //----------------------------------------------------------------------
 // Set the size of the map
 // Takes the height and width of the map as parameters
-void OrienteeringMap::set_map_size(int height, int width) {
+void OrienteeringMap::set_map_size(int width, int height) {
     this->height_ = height;
     this->width_ = width;
 }
@@ -86,21 +86,21 @@ void OrienteeringMap::print_map() const {
     // Print the x-axis at the top
     std::cout << " ";
     for (int i = 0; i < this->width_; i++) {
-        std::cout << i+1 << " ";
+        std::cout << std::setw(3) << i+1;
     }
     std::cout << std::endl;
 
 
     for (int i = 0; i < this->height_; i++) {
-        std::cout << i+1 << " ";
+        std::cout << std::setw(2) << i+1; 
 
         for (int j = 0; j < this->width_; j++) {
             auto it = points_position.find({j, i});
 
             if (it != points_position.end()) {
-                std::cout << it->second->marker_ << " ";
+                std::cout << std::setw(3) << it->second->marker_;
             } else {
-                std::cout << "." << " ";
+                std::cout << std::setw(3) << "."; 
             }
         }
         std::cout << std::endl;
@@ -142,6 +142,7 @@ void OrienteeringMap::print_route(const std::string& route_name) const {
 
     // If the route exists, print
     this->routes_.at(route_name)->print();
+    return;
 }
 
 //----------------------------------------------------------------------
@@ -156,12 +157,12 @@ void OrienteeringMap::route_length(const std::string& name) const {
         return;
     }
 
-    double length = this->routes_.at(name)->calculate_length();
+    double route_length = this->routes_.at(name)->calculate_length();
 
     std::cout << std::setprecision(2) << "Route " 
                                       << name 
                                       << " length was "
-                                      << length 
+                                      << route_length 
                                       << std::endl;
 
 }
