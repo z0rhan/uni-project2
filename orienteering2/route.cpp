@@ -11,9 +11,9 @@ Route::Route() {
 void Route::enqueue(std::shared_ptr<Point> from, 
                     std::shared_ptr<Point> to) {
     // If the route is empty, set the head and tail to the given points
-    if (!this->head_ && !this->tail_) {
+    if (!this->head_) {
         this->head_ = from;
-        this->tail_ = to;
+        this->head_->next_ = to;
     } else {
         // otherwise, find 'from' in the route and set its next to 'to'
         std::shared_ptr<Point> temp = this->head_;
@@ -24,6 +24,8 @@ void Route::enqueue(std::shared_ptr<Point> from,
 
         if (temp) {
             temp->next_ = to;
+        } else {
+            std::cerr << "Point not found in the route" << std::endl;
         }
 
     }

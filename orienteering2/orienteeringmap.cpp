@@ -61,7 +61,7 @@ bool OrienteeringMap::connect_route(std::string from,
     }
 
     // If the route does not exist, create a new route
-    std::shared_ptr<Route> route;
+    std::shared_ptr<Route> route = std::make_shared<Route>();
     route->enqueue(this->control_points_[from],
                    this->control_points_[to]);
 
@@ -88,6 +88,7 @@ void OrienteeringMap::print_map() const {
     for (int i = 0; i < this->width_; i++) {
         std::cout << i+1 << " ";
     }
+    std::cout << std::endl;
 
 
     for (int i = 0; i < this->height_; i++) {
@@ -163,4 +164,9 @@ void OrienteeringMap::route_length(const std::string& name) const {
                                       << length 
                                       << std::endl;
 
+}
+
+//----------------------------------------------------------------------
+void OrienteeringMap::greatest_rise(const std::string& point_name) const {
+    std::cout << "Test" << point_name << std::endl;
 }

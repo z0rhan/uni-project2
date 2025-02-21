@@ -33,7 +33,6 @@ public:
 
 private:
     std::shared_ptr<Point> head_;
-    std::shared_ptr<Point> tail_;
 
 };
 
