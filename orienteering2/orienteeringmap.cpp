@@ -55,15 +55,15 @@ bool OrienteeringMap::connect_route(std::string from,
 
     // Check if the route already exists
     if (this->routes_.find(route_name) != this->routes_.end()) {
-        this->routes_[route_name]->enqueue(this->control_points_[from], 
-                                           this->control_points_[to]);
+        this->routes_[route_name]->enqueue(this->control_points_.at(from),
+                                           this->control_points_.at(to));
         return true;
     }
 
     // If the route does not exist, create a new route
     std::shared_ptr<Route> route = std::make_shared<Route>();
-    route->enqueue(this->control_points_[from],
-                   this->control_points_[to]);
+    route->enqueue(this->control_points_.at(from),
+                   this->control_points_.at(to));
 
     this->routes_[route_name] = route;
 

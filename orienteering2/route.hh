@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <cmath>
 
 // Data structure for a point in the map
 //----------------------------------------------------------------------------
@@ -31,9 +32,11 @@ public:
     // Calculates the length of the route
     double calculate_length() const;
 
+    // 
+    double distance(std::shared_ptr<Point>, std::shared_ptr<Point>) const;
+
 private:
     std::shared_ptr<Point> head_;
-
 };
 
 
