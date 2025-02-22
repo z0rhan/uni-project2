@@ -23,6 +23,7 @@
 #include <iostream>
 #include <map>
 #include <iomanip>
+#include <algorithm>
 
 #include "route.hh"
 

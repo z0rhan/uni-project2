@@ -1,3 +1,2 @@
 List of things to do:
-- Implement the greates_rise() function
-- Fix enqueue() method for route
+- Fix greatest_rise() to only print the greatest rises only

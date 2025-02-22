@@ -169,6 +169,49 @@ void OrienteeringMap::route_length(const std::string& name) const {
 }
 
 //----------------------------------------------------------------------
+//
 void OrienteeringMap::greatest_rise(const std::string& point_name) const {
-    std::cout << "Test" << point_name << std::endl;
+    if (this->control_points_.find(point_name) ==
+        this->control_points_.end())
+    {
+        std::cout << "Error: Point named "
+                  << point_name
+                  << " can't be found"
+                  << std::endl;
+        return;
+    }
+
+    std::shared_ptr<Point> point = this->control_points_.at(point_name);
+    std::vector<std::pair<std::string, int>> greatest_rises;
+
+    for (auto& [name, route]: this->routes_) {
+        int rise = route->get_greatest_rise(point);
+
+        if (rise > 0) {
+            greatest_rises.push_back({name, rise});
+        }
+    }
+
+    if (greatest_rises.empty()) {
+        std::cout << "No route rises after point "
+                  << point_name
+                  << std::endl;
+        return;
+    }
+
+    std::sort(greatest_rises.begin(), greatest_rises.end(),
+         [](const std::pair<std::string, int>& a,
+            const std::pair<std::string, int>& b)
+            {return a.second > b.second;});
+
+    std::cout << "Greatest rise after point "
+              << point_name
+              << ", "
+              << greatest_rises.front().second
+              << " meters, is on route(s):"
+              << std::endl;
+
+    for (auto& [name, rise]: greatest_rises) {
+        std::cout << " - " << name << std::endl;
+    }
 }
