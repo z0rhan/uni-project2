@@ -9,20 +9,26 @@ void Route::enqueue(std::shared_ptr<Point> from,
                     std::shared_ptr<Point> to) {
     // If the route is empty, set the head and tail to the given points
     if (!this->head_) {
-        this->head_ = from;
-        this->head_->next_ = to;
-        to->next_ = nullptr;
+        std::shared_ptr<Node> node_from = std::make_shared<Node>();
+        node_from->point_ = from;
+        this->head_ = node_from;
+
+        std::shared_ptr<Node> node_to = std::make_shared<Node>();
+        node_to->point_ = to;
+        this->head_->next_ = node_to;
+
     } else {
         // otherwise, find 'from' in the route and set its next to 'to'
-        std::shared_ptr<Point> temp = this->head_;
+        std::shared_ptr<Node> temp = this->head_;
         
-        while (temp && temp != from) {
+        while (temp && temp->point_ != from) {
             temp = temp->next_;
         }
 
         if (temp) {
-            temp->next_ = to;
-            to->next_ = nullptr;
+            std::shared_ptr<Node> node_to = std::make_shared<Node>();
+            node_to->point_ = to;
+            temp->next_ = node_to;
         } 
     }
 }
@@ -30,12 +36,12 @@ void Route::enqueue(std::shared_ptr<Point> from,
 //----------------------------------------------------------------------
 // Function to print the points in a route
 void Route::print() const {
-    std::shared_ptr<Point> temp = this->head_->next_;
+    std::shared_ptr<Node> temp = this->head_->next_;
 
-    std::cout << this->head_->name_ << std::endl;
+    std::cout << this->head_->point_->name_ << std::endl;
 
     while (temp) {
-        std::cout << " -> "<< temp->name_ << std::endl;
+        std::cout << " -> "<< temp->point_->name_ << std::endl;
         temp = temp->next_;
     }
 }
@@ -43,11 +49,11 @@ void Route::print() const {
 //----------------------------------------------------------------------
 // Function to calculate the length of a route
 double Route::calculate_length() const {
-    std::shared_ptr<Point> temp = this->head_;
+    std::shared_ptr<Node> temp = this->head_;
     double length = 0.00;
 
     while (temp->next_) {
-        length += this->distance(temp, temp->next_);
+        length += this->distance(temp->point_, temp->next_->point_);
         temp = temp->next_;
     }
 

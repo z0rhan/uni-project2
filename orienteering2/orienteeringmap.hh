@@ -25,7 +25,7 @@
 #include <iomanip>
 
 #include "route.hh"
- 
+
 
 class OrienteeringMap
 {

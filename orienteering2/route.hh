@@ -9,14 +9,14 @@
 // Data structure for a point in the map
 //----------------------------------------------------------------------------
 // The point has a name, position (x and y coordinates),
-// height and a marker. Also has a pointer to implement a linked list.
+// height and a marker.
 struct Point
 {
     std::string name_;
     int x_, y_, height_;
     char marker_;
-    std::shared_ptr<Point> next_;
 };
+
 
 class Route {
 public:
@@ -36,7 +36,13 @@ public:
     double distance(std::shared_ptr<Point>, std::shared_ptr<Point>) const;
 
 private:
-    std::shared_ptr<Point> head_;
+    struct Node {
+        std::shared_ptr<Point> point_;
+        std::shared_ptr<Node> next_;
+    };
+
+    std::shared_ptr<Node> head_;
+
 };
 
 
