@@ -40,7 +40,7 @@ public:
     // Calculate greatest rise
     int get_greatest_rise(std::shared_ptr<Point>) const;
 
-    //
+    // Calculate height difference between two points
     int get_height_difference(std::shared_ptr<Point>,
                               std::shared_ptr<Point>) const;
 

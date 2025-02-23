@@ -27,7 +27,7 @@ Class 'Route' is introduced to represent a route in the map.
 and 'next_' that points to the next 'Node'.
 
 Inside 'Route' we have methods like 'enqueue', 'print', 'calculate_length',
-'get_greatest_rise' and 'get_height_difference'.
+'get_distance', 'get_greatest_rise' and 'get_height_difference'.
 */
 
 #ifndef ORIENTEERINGMAP_HH
