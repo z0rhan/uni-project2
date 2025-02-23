@@ -1,6 +1,7 @@
 #include "route.hh"
 #include <memory>
 
+// Constructor
 Route::Route() : head_(nullptr) {}
 
 //---------------------------------------------------------------------
@@ -49,12 +50,14 @@ void Route::print() const {
 
 //----------------------------------------------------------------------
 // Function to calculate the length of a route
+// Returns the length of the current route
 double Route::calculate_length() const {
     std::shared_ptr<Node> temp = this->head_;
     double length = 0.00;
 
     while (temp->next_) {
-        length += this->get_distance(temp->point_, temp->next_->point_);
+        length += this->get_distance(temp->point_,
+                                     temp->next_->point_);
         temp = temp->next_;
     }
 
@@ -73,8 +76,11 @@ double Route::get_distance(std::shared_ptr<Point> p1,
 }
 
 //----------------------------------------------------------------------
-//
+// Function to calculate the greatest rise in a route from a given point
+// Takes a shared pointer to a point as a parameter
+// Returns the greatest rise from the given point
 int Route::get_greatest_rise(std::shared_ptr<Point> point) const {
+    // Route is empty
     if (!this->head_) {
         std::cout << "Error: Route is empty" << std::endl;
         return -1;
@@ -85,7 +91,8 @@ int Route::get_greatest_rise(std::shared_ptr<Point> point) const {
     while (temp && temp->point_ != point) {
         temp = temp->next_;
     }
-
+    
+    // Point does not exist in the route
     if (!temp) {
         return -1;
     }
@@ -108,7 +115,9 @@ int Route::get_greatest_rise(std::shared_ptr<Point> point) const {
 }
 
 //----------------------------------------------------------------------
-//
+// Function to calculate the height difference between two points
+// Takes two shared pointers to points as parameters
+// Returns the height difference between the points
 int Route::get_height_difference(std::shared_ptr<Point> p1,
                                 std::shared_ptr<Point> p2) const
 {

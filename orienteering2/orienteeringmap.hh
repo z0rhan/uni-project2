@@ -11,6 +11,25 @@
 #############################################################################
 */
 
+/*
+Description: We have introduced struct 'Point' that holds the information
+about a point in the map.
+'control_points_' is a map that stores the 'Point' pointers.
+'routes_' is a map that stores the 'Route' pointers.
+
+Added function definitions for 'set_map_size', 'add_point', 'connect_route',
+'print_map', 'print_routes', 'print_points', 'print_route', 'route_length',
+'greatest_rise'.
+
+Class 'Route' is introduced to represent a route in the map.
+'Route' utilizes struct 'Node' to imitate a linked list.
+'Node' consists of a 'point_' that points to a 'Point'
+and 'next_' that points to the next 'Node'.
+
+Inside 'Route' we have methods like 'enqueue', 'print', 'calculate_length',
+'get_greatest_rise' and 'get_height_difference'.
+*/
+
 #ifndef ORIENTEERINGMAP_HH
 #define ORIENTEERINGMAP_HH
 

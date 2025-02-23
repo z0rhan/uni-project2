@@ -109,7 +109,7 @@ void OrienteeringMap::print_map() const {
 }
 
 //----------------------------------------------------------------------
-// Print the list of all the routes
+// Function to print the list of all the routes
 void OrienteeringMap::print_routes() const {
     std::cout << "Routes:" << std::endl;
 
@@ -119,6 +119,7 @@ void OrienteeringMap::print_routes() const {
 }
 
 //----------------------------------------------------------------------
+// Function to print the points in the map
 void OrienteeringMap::print_points() const {
     std::cout << "Points:" << std::endl;
 
@@ -132,7 +133,7 @@ void OrienteeringMap::print_points() const {
 // Takes the name of the route as a parameter
 // If the route does not exist, print an error message
 void OrienteeringMap::print_route(const std::string& route_name) const {
-    // If the route does not exist, print an error message
+    // If the route does not exist
     if (this->routes_.find(route_name) == this->routes_.end()) {
         std::cout << "Error: Route named " 
                   << route_name 
@@ -150,6 +151,7 @@ void OrienteeringMap::print_route(const std::string& route_name) const {
 // Function to print the length of a route
 // Takes the name of the route as a parameter
 void OrienteeringMap::route_length(const std::string& name) const {
+    // If the route does not exist
     if (this->routes_.find(name) == this->routes_.end()) {
         std::cout << "Error: Route named " 
                   << name 
@@ -169,7 +171,8 @@ void OrienteeringMap::route_length(const std::string& name) const {
 }
 
 //----------------------------------------------------------------------
-//
+// Function that prints the greatest rise after a point
+// along with the routes where the rise occurs
 void OrienteeringMap::greatest_rise(const std::string& point_name) const {
     if (this->control_points_.find(point_name) ==
         this->control_points_.end())
