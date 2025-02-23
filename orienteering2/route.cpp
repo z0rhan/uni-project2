@@ -94,6 +94,7 @@ int Route::get_greatest_rise(std::shared_ptr<Point> point) const {
     
     // Point does not exist in the route
     if (!temp) {
+        std::cout << "Error: Point not found in route" << std::endl;
         return -1;
     }
 

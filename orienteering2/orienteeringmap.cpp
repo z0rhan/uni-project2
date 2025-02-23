@@ -174,6 +174,7 @@ void OrienteeringMap::route_length(const std::string& name) const {
 // Function that prints the greatest rise after a point
 // along with the routes where the rise occurs
 void OrienteeringMap::greatest_rise(const std::string& point_name) const {
+    // If the point does not exist
     if (this->control_points_.find(point_name) ==
         this->control_points_.end())
     {
@@ -185,6 +186,8 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
     }
 
     std::shared_ptr<Point> point = this->control_points_.at(point_name);
+
+    // store the routes and their rises after the point
     std::vector<std::pair<std::string, int>> greatest_rises;
 
     for (auto& [name, route]: this->routes_) {
@@ -195,6 +198,9 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
         }
     }
 
+    // if no route rises after the point
+    // or some other reasons, desribed in the get_greatest_rise
+    // those reasons are not necessary for this task
     if (greatest_rises.empty()) {
         std::cout << "No route rises after point "
                   << point_name
@@ -205,12 +211,14 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
     int max_rise = 0;
     std::vector<std::string> max_rise_routes;
 
+    // find the greatest rise
     for (auto& pair: greatest_rises) {
         if (pair.second > max_rise) {
             max_rise = pair.second;
         }
     }
 
+    // find the routes with the greatest rise
     for (auto& pair: greatest_rises) {
         if (pair.second == max_rise) {
             max_rise_routes.push_back(pair.first);
