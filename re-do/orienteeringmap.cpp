@@ -1,4 +1,6 @@
 #include "orienteeringmap.hh"
+#include <memory>
+
 
 // Constructor
 OrienteeringMap::OrienteeringMap() {
@@ -6,6 +8,18 @@ OrienteeringMap::OrienteeringMap() {
 
 // Destructor
 OrienteeringMap::~OrienteeringMap() {
+}
+
+//----------------------------------------------------------------------
+//
+bool OrienteeringMap::route_exists(const std::string& name) const {
+    return this->routes_.find(name) != this->routes_.end();
+}
+
+//----------------------------------------------------------------------
+//
+bool OrienteeringMap::point_exists(const std::string& name) const {
+    return this->control_points_.find(name) != this->control_points_.end();
 }
 
 //----------------------------------------------------------------------
@@ -24,13 +38,9 @@ void OrienteeringMap::add_point(std::string name,
                                 int x, int y, int height,
                                 char marker)
 {
-    std::shared_ptr<Point> control_point= std::make_shared<Point>();
-
-    control_point->name_ = name;
-    control_point->x_ = x;
-    control_point->y_ = y;
-    control_point->height_ = height;
-    control_point->marker_ = marker;
+    std::shared_ptr<Point> control_point = std::make_shared<Point>(
+        Point(name, x, y, height, marker)
+    );
 
     this->control_points_[name] = control_point;
 }
@@ -44,7 +54,30 @@ bool OrienteeringMap::connect_route(std::string from,
                                     std::string to,
                                     std::string route_name)
 {
-    // To-do
+    if (!this->point_exists(from) || !this->point_exists(to)) {
+        return false;
+    }
+
+    // If the route does not exist
+    if (!this->route_exists(route_name)) {
+        std::shared_ptr<Route> route = std::make_shared<Route>();
+
+        route->enqueue(this->control_points_[from],
+                       this->control_points_[to]);
+
+        this->routes_[route_name] = route;
+
+        return true;
+    }
+
+    // If the route exists
+    std::shared_ptr<Route> route = this->routes_[route_name];
+
+    route->enqueue(this->control_points_[from],
+                   this->control_points_[to]);
+
+    this->routes_[route_name] = route;
+
     return true;
 }
 
@@ -54,7 +87,7 @@ void OrienteeringMap::print_map() const {
     std::map<std::pair<int, int>, std::shared_ptr<Point>> points_position;
 
     for (auto& [name, point]: this->control_points_) {
-        points_position[{point->x_-1, point->y_-1}] = point;
+        points_position[{point->x() - 1, point->y() - 1}] = point;
     }
 
     std::cout << " ";
@@ -71,7 +104,7 @@ void OrienteeringMap::print_map() const {
             auto it = points_position.find({j, i});
 
             if (it != points_position.end()) {
-                std::cout << std::setw(3) << it->second->marker_;
+                std::cout << std::setw(3) << it->second->marker();
             } else {
                 std::cout << std::setw(3) << "."; 
             }
@@ -96,7 +129,7 @@ void OrienteeringMap::print_points() const {
     std::cout << "Points:" << std::endl;
 
     for (auto& [name, point]: this->control_points_) {
-        std::cout << " - " << name << " : " << point->marker_ << std::endl;
+        std::cout << " - " << name << " : " << point->marker() << std::endl;
     }
 }
 
@@ -105,20 +138,86 @@ void OrienteeringMap::print_points() const {
 // Takes the name of the route as a parameter
 // If the route does not exist, print an error message
 void OrienteeringMap::print_route(const std::string& route_name) const {
-    // To-do
+
+    if (!this->route_exists(route_name)) {
+        std::cout << "Error: Route named " 
+                  << route_name 
+                  << " can't be found" 
+                  << std::endl;
+        return;;
+    }
+
+    this->routes_.at(route_name)->print();
 }
 
 //----------------------------------------------------------------------
 // Function to print the length of a route
 // Takes the name of the route as a parameter
 void OrienteeringMap::route_length(const std::string& name) const {
-    // To-do
+
+    if (!this->route_exists(name)) {
+    std::cout << "Error: Route named " 
+              << name 
+              << " can't be found" 
+              << std::endl;
+    return;;
+    }
+
+    std::cout << "Route " << name << " length was " 
+              << std::fixed << std::setprecision(1) 
+              << this->routes_.at(name)->length() 
+              << std::endl;
+    
 }
 
 //----------------------------------------------------------------------
 // Function that prints the greatest rise after a point
 // along with the routes where the rise occurs
 void OrienteeringMap::greatest_rise(const std::string& point_name) const {
-    // To-do
+
+    if (!this->point_exists(point_name)) {
+        std::cout << "Error: Point named " 
+                  << point_name 
+                  << " can't be found" 
+                  << std::endl;
+        return;
+    }
+
+    std::shared_ptr<Point> point = this->control_points_.at(point_name);
+
+    std::map<int, std::string> greatest_rises;
+
+    for (auto& [name, route]: this->routes_) {
+        int greatest_rise = route->greatest_rise(point);
+
+        if (greatest_rise <= 0) {
+            continue;
+        }
+
+        greatest_rises[greatest_rise] = name;
+    }
+
+    if (greatest_rises.empty()) {
+        std::cout << "No route rises after point " 
+                  << point_name 
+                  << std::endl;
+        return;
+    }
+
+    int max_rise = greatest_rises.rbegin()->first;
+
+    std::cout << "Greatest rise after point " 
+              << point_name 
+              << ", " 
+              << max_rise 
+              << " meters, is on route(s):"
+              << std::endl;
+
+    for (auto& [rise, name]: greatest_rises) {
+        if (rise == max_rise) {
+            std::cout << " - " << name << std::endl;
+        }
+    }
+
 }
 

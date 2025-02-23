@@ -18,7 +18,6 @@
 
 //----------------------------------------------------------------------
 // Libraries added later
-#include <vector>
 #include <memory>
 #include <iostream>
 #include <map>
@@ -89,6 +88,12 @@ private:
 
     // store the Routes pointers in a vector
     std::map<std::string, std::shared_ptr<Route>> routes_;
+
+    //
+    bool route_exists(const std::string& name) const;
+
+    //
+    bool point_exists(const std::string& name) const;
 
 };
 
