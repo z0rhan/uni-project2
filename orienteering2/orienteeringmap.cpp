@@ -199,19 +199,30 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
         return;
     }
 
-    std::sort(greatest_rises.begin(), greatest_rises.end(),
-         [](const std::pair<std::string, int>& a,
-            const std::pair<std::string, int>& b)
-            {return a.second > b.second;});
+    int max_rise = 0;
+    std::vector<std::string> max_rise_routes;
+
+    for (auto& pair: greatest_rises) {
+        if (pair.second > max_rise) {
+            max_rise = pair.second;
+        }
+    }
+
+    for (auto& pair: greatest_rises) {
+        if (pair.second == max_rise) {
+            max_rise_routes.push_back(pair.first);
+        }
+    }
+
 
     std::cout << "Greatest rise after point "
               << point_name
               << ", "
-              << greatest_rises.front().second
+              << max_rise
               << " meters, is on route(s):"
               << std::endl;
 
-    for (auto& [name, rise]: greatest_rises) {
-        std::cout << " - " << name << std::endl;
+    for (auto& point: max_rise_routes) {
+        std::cout << " - " << point << std::endl;
     }
 }
