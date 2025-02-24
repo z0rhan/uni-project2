@@ -17,8 +17,6 @@ public:
 
     double distance(std::shared_ptr<Point>) const;
 
-    int height_diff(std::shared_ptr<Point>) const;
-
     int x() const;
 
     int y() const;

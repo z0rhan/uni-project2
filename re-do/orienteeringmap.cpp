@@ -1,5 +1,7 @@
 #include "orienteeringmap.hh"
+#include <algorithm>
 #include <memory>
+#include <string>
 
 
 // Constructor
@@ -185,7 +187,7 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
 
     std::shared_ptr<Point> point = this->control_points_.at(point_name);
 
-    std::map<int, std::string> greatest_rises;
+    std::map<std::string, int> greatest_rises;
 
     for (auto& [name, route]: this->routes_) {
         int greatest_rise = route->greatest_rise(point);
@@ -194,7 +196,7 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
             continue;
         }
 
-        greatest_rises[greatest_rise] = name;
+        greatest_rises[name] = greatest_rise;
     }
 
     if (greatest_rises.empty()) {
@@ -204,7 +206,13 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
         return;
     }
 
-    int max_rise = greatest_rises.rbegin()->first;
+    auto it = std::max_element(greatest_rises.begin(), 
+                                    greatest_rises.end(),
+                                    [](const std::pair<std::string, int> p1,
+                                       const std::pair<std::string, int> p2)
+                                    {return p1.second < p2.second;});
+
+    int max_rise = it->second;
 
     std::cout << "Greatest rise after point " 
               << point_name 
@@ -213,7 +221,7 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
               << " meters, is on route(s):"
               << std::endl;
 
-    for (auto& [rise, name]: greatest_rises) {
+    for (auto& [name, rise]: greatest_rises) {
         if (rise == max_rise) {
             std::cout << " - " << name << std::endl;
         }

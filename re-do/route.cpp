@@ -84,11 +84,17 @@ int Route::greatest_rise(std::shared_ptr<Point> point) const {
         return -1;
     }
 
+    // Point is the last point in the route
+    if (!temp->next_) {
+        return 0;
+    }
+
     int greatest_rise = 0;
-    int temp_rise = 0;
+    int current_height = temp->point_->height();
 
     while (temp->next_) {
-        temp_rise = point->height_diff(temp->next_->point_);
+        int next_height = temp->next_->point_->height();
+        int temp_rise = next_height - current_height;
 
         if (temp_rise > greatest_rise) {
             greatest_rise = temp_rise;
