@@ -13,13 +13,17 @@ OrienteeringMap::~OrienteeringMap() {
 }
 
 //----------------------------------------------------------------------
-//
+// Function to check if a route exists
+// Takes the name of the route as a parameter
+// Returns true if the route exists and false otherwise
 bool OrienteeringMap::route_exists(const std::string& name) const {
     return this->routes_.find(name) != this->routes_.end();
 }
 
 //----------------------------------------------------------------------
-//
+// Function to check if a point exists
+// Takes the name of the point as a parameter
+// Returns true if the point exists and false otherwise
 bool OrienteeringMap::point_exists(const std::string& name) const {
     return this->control_points_.find(name) != this->control_points_.end();
 }
@@ -207,10 +211,10 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
     }
 
     auto it = std::max_element(greatest_rises.begin(), 
-                                    greatest_rises.end(),
-                                    [](const std::pair<std::string, int> p1,
-                                       const std::pair<std::string, int> p2)
-                                    {return p1.second < p2.second;});
+                               greatest_rises.end(),
+                               [](const std::pair<std::string, int> p1,
+                                  const std::pair<std::string, int> p2)
+                               {return p1.second < p2.second;});
 
     int max_rise = it->second;
 

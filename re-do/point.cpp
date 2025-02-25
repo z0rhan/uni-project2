@@ -22,7 +22,9 @@ char Point::marker() const {return this->marker_;}
 
 
 //----------------------------------------------------------------------
-//
+// Functio to calculate distance between two points
+// Takes a shared pointer to the next point as argument
+// Returns the distance between the two points
 double Point::distance(std::shared_ptr<Point> next_point) const
 {
     return sqrt(pow(next_point->x_ - this->x_, 2) +

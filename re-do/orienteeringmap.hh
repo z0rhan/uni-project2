@@ -89,10 +89,10 @@ private:
     // store the Routes pointers in a vector
     std::map<std::string, std::shared_ptr<Route>> routes_;
 
-    //
+    // check if a route exists
     bool route_exists(const std::string& name) const;
 
-    //
+    // check if a point exists
     bool point_exists(const std::string& name) const;
 
 };

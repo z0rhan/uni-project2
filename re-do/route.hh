@@ -13,7 +13,7 @@ public:
     // Constructor
     Route();
 
-    // Takes two pointers to 'Point' struct and connects them
+    // add a point to the route
     void enqueue(std::shared_ptr<Point> from,
                  std::shared_ptr<Point> to);
 

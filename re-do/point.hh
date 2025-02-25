@@ -12,20 +12,15 @@ public:
           int x, int y, int height, 
           char marker);
 
-
-    // Methods
-
+    // Calculate the distance between two points
     double distance(std::shared_ptr<Point>) const;
 
-    int x() const;
-
-    int y() const;
-
-    int height() const;
-
-    std::string name() const;
-
-    char marker() const;
+    // Getters
+    std::string name() const; // name
+    int x() const; // x coordinate
+    int y() const; // y coordinate
+    int height() const; // height
+    char marker() const; // marker
 
 private:
 
